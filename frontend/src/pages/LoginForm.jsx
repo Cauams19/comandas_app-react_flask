@@ -23,25 +23,28 @@ const LoginForm = () => {
 
     return (
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ backgroundColor: "#ADD8E6", padding: 1, borderRadius: 1, mt: 2 }}>
+
             <Toolbar sx={{ backgroundColor: "#ADD8E6", padding: 1, borderRadius: 2, mb: 2, display: "flex", justifyContent: "space-between" }}>
                 <Typography variant="h6" color="primary">Login</Typography>
             </Toolbar>
+
             <Box sx={{ backgroundColor: 'white', padding: 2, borderRadius: 3, mb: 2 }}>
     
-            <TextField
-                label="Usuário" fullWidth margin="normal" {...register('usuario', { required: 'Usuário é obrigatório' })} error={!!errors.usuario} helperText={errors.usuario?.message}
-            />
+                <TextField
+                    label="Usuário" fullWidth margin="normal" {...register('usuario', { required: 'Usuário é obrigatório' })} error={!!errors.usuario} helperText={errors.usuario?.message}
+                />
     
-            <TextField
-                label="Senha" type="password" fullWidth margin="normal"
-                {...register("senha", { required: "Senha é obrigatória", minLenght: { value: 6, message: "Senha deve ter pelo menos 6 caracteres"}})} error={!!errors.senha} helperText={errors.senha?.message}
-            />
+                <TextField
+                    label="Senha" type="password" fullWidth margin="normal"
+                    {...register("senha", { required: "Senha é obrigatória", minLenght: { value: 6, message: "Senha deve ter pelo menos 6 caracteres"}})} error={!!errors.senha} helperText={errors.senha?.message}
+                />
             
-            <Button type="submit" variant="contained" fullWidth color="primary">
-                Entrar
-            </Button>
+                <Button type="submit" variant="contained" fullWidth color="primary">
+                    Entrar
+                </Button>
     
             </Box>
+
         </Box>
     );
 };
