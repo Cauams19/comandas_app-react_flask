@@ -1,7 +1,6 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { TextField, Button, Box, Typography, Toolbar } from "@mui/material";
 
 const LoginForm = () => {
@@ -10,8 +9,6 @@ const LoginForm = () => {
     // handleSubmit é uma função que lida com o envio do formulário
     // formState é um objeto que contém o estado do formulário, incluindo erros de validação
     const { register, handleSubmit, formState: { errors } } = useForm();
-
-    const navigate = useNavigate();
 
     // useAuth é um hook personalizado que fornece acesso ao contexto de autenticação
     // login é uma função que realiza o login do usuário
