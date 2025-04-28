@@ -13,6 +13,7 @@ function App() {
   return (
     // O BrowserRouter é o roteador principal que gerencia as rotas da aplicação
     <BrowserRouter>
+    
       {/* O AuthProvider envolve toda a aplicação, permitindo que os componentes filhos acessem o contexto de autenticação */}
       <AuthProvider>
       
