@@ -8,8 +8,8 @@ const FuncionarioList = lazy(() => import("../pages/FuncionarioList"));
 const FuncionarioForm = lazy(() => import("../pages/FuncionarioForm"));
 const ClienteList = lazy(() => import("../pages/ClienteList"));
 const ClienteForm = lazy(() => import("../pages/ClienteForm"));
-//const ProdutoList = lazy(() => import("../pages/ProdutoList"));
-//const ProdutoForm = lazy(() => import("../pages/ProdutoForm"));
+const ProdutoList = lazy(() => import("../pages/ProdutoList"));
+const ProdutoForm = lazy(() => import("../pages/ProdutoForm"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
 // Loader para o Suspense - Isso melhora a experiência do usuário em aplicações maiores.
@@ -29,7 +29,8 @@ const AppRoutes = () => {
                 <Route path="/funcionario" element={<FuncionarioForm />} />
                 <Route path="/clientes" element={<ClienteList />} />
                 <Route path="/cliente" element={<ClienteForm />} />
-                
+                <Route path="/produtos" element={<ProdutoList />} />
+                <Route path="/produto" element={<ProdutoForm />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Suspense>
