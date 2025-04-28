@@ -6,8 +6,8 @@ const LoginForm = lazy(() => import("../pages/LoginForm"));
 const Home = lazy(() => import("../pages/Home"));
 const FuncionarioList = lazy(() => import("../pages/FuncionarioList"));
 const FuncionarioForm = lazy(() => import("../pages/FuncionarioForm"));
-//const ClienteList = lazy(() => import("../pages/ClienteList"));
-//const ClienteForm = lazy(() => import("../pages/ClienteForm"));
+const ClienteList = lazy(() => import("../pages/ClienteList"));
+const ClienteForm = lazy(() => import("../pages/ClienteForm"));
 //const ProdutoList = lazy(() => import("../pages/ProdutoList"));
 //const ProdutoForm = lazy(() => import("../pages/ProdutoForm"));
 const NotFound = lazy(() => import("../pages/NotFound"));
@@ -27,6 +27,8 @@ const AppRoutes = () => {
                 <Route path="/home" element={<Home />} />
                 <Route path="/funcionarios" element={<FuncionarioList />} />
                 <Route path="/funcionario" element={<FuncionarioForm />} />
+                <Route path="/clientes" element={<ClienteList />} />
+                <Route path="/cliente" element={<ClienteForm />} />
                 
                 <Route path="*" element={<NotFound />} />
             </Routes>

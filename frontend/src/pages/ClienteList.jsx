@@ -30,7 +30,7 @@ function ClienteList() {
                         <TableCell>15</TableCell>
                         <TableCell>Joaozinho</TableCell>
                         <TableCell>321</TableCell>
-                        <TableCell>678</TableCell>
+                        <TableCell>49999999809</TableCell>
                         <TableCell>
                             <IconButton> <Visibility color="primary" /> </IconButton>
                             <IconButton> <Edit color="secondary" /> </IconButton>
