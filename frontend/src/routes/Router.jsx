@@ -27,10 +27,7 @@ const AppRoutes = () => {
                 <Route path="/home" element={<Home />} />
                 <Route path="/funcionarios" element={<FuncionarioList />} />
                 <Route path="/funcionario" element={<FuncionarioForm />} />
-                <Route path="/clientes" element={<ClienteList />} />
-                <Route path="/cliente" element={<ClienteForm />} />
-                <Route path="/produtos" element={<ProdutoList />} />
-                <Route path="/produto" element={<ProdutoForm />} />
+                
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Suspense>
