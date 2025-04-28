@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import PrivateRoute from "./PrivateRoute";
 
 // Lazy Loading para otimização (code-splitting) - Os componentes das páginas foram carregados de forma assíncrona usando React.lazy.
 const LoginForm = lazy(() => import("../pages/LoginForm"));
