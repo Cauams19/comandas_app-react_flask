@@ -5,6 +5,10 @@ import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./pages/Navbar";
 import AppRoutes from "./routes/Router";
 
+// toastify para notificações
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   return (
     // O BrowserRouter é o roteador principal que gerencia as rotas da aplicação
@@ -12,6 +16,9 @@ function App() {
       {/* O AuthProvider envolve toda a aplicação, permitindo que os componentes filhos acessem o contexto de autenticação */}
       <AuthProvider>
       
+            {/* O ToastContainer é o componente que renderiza as notificações na tela */}
+            <ToastContainer position="top-center" autoClose={3000} />
+
         {/* O Navbar é o componente de navegação que contém os links para as diferentes páginas da aplicação */}
         <Navbar />
 
@@ -24,7 +31,7 @@ function App() {
         </Container>
 
       </AuthProvider>
-      
+
     </BrowserRouter>
   );
 }
