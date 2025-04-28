@@ -29,13 +29,12 @@ const LoginForm = () => {
 
             <Box sx={{ backgroundColor: 'white', padding: 2, borderRadius: 3, mb: 2 }}>
     
-                <TextField
-                    label="Usuário" fullWidth margin="normal" onChange={(e) => setUsername(e.target.value)} {...register('usuario', { required: 'Usuário é obrigatório' })} error={!!errors.usuario} helperText={errors.usuario?.message}
+                <TextField label="Usuário" fullWidth margin="normal" onChange={(e) => setUsername(e.target.value)}
+                    {...register('username', { required: 'Usuário é obrigatório' })} error={!!errors.usuario} helperText={errors.usuario?.message}
                 />
     
-                <TextField
-                    label="Senha" type="password" fullWidth margin="normal" onChange={(e) => setPassword(e.target.value)}
-                    {...register("senha", {
+                <TextField label="Senha" type="password" fullWidth margin="normal" onChange={(e) => setPassword(e.target.value)}
+                    {...register("password", {
                          required: "Senha é obrigatória", minLenght: { value: 6, message: "Senha deve ter pelo menos 6 caracteres"}
                         })} error={!!errors.senha} helperText={errors.senha?.message}
                 />
