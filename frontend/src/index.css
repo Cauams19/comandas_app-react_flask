@@ -67,6 +67,15 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none; /* Remove a borda padrão */
+  border: 2px solid #213547; /* Adiciona uma borda azul quando focado */
+  box-shadow: 0 0 5px #213547; /* Um brilho suave para destacar */
+  transition: all 0.3s ease; /* Transição suave */
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
