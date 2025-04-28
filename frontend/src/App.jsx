@@ -8,6 +8,7 @@ import AppRoutes from "./routes/Router";
 function App() {
   return (
     <BrowserRouter>
+    
       <Navbar />
       
       <Container sx={{ mt: 4 }}>
