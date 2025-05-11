@@ -57,8 +57,29 @@ const FuncionarioForm = () => {
                     label="Matrícula" fullWidth margin="normal"
                     {...register('matricula', { required: 'Matrícula é obrigatória' })} error={!!errors.matricula} helperText={errors.matricula?.message}
                 />
-                <TextField
-                    label="Telefone" fullWidth margin="normal" {...register('telefone')}
+                {/* Telefone com máscara */}
+                <Controller
+                    name="telefone" control={control} defaultValue="" rules={{ required: 'Telefone é obrigatório' }}
+                    render={({ field }) => (
+                        <TextField
+                            {...field}
+                            label="Telefone" fullWidth margin="normal"
+                            error={!!errors.telefone} helperText={errors.telefone?.message}
+                            InputProps={{
+                                // Define o IMaskInputWrapper como o componente de entrada
+                                inputComponent: IMaskInputWrapper,
+                                inputProps: {
+                                    mask: "(00) 00000-0000",
+                                    // O regex [0-9] aceita apenas números de 0 a 9
+                                    definitions: {
+                                        "0": /[0-9]/,
+                                    },
+                                    // Retorna apenas os números no valor
+                                    unmask: true,
+                                },
+                            }}
+                        />
+                    )}
                 />
                 <TextField
                     label="Senha" type="password" fullWidth margin="normal"
