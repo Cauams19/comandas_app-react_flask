@@ -43,3 +43,20 @@ def create_funcionario():
     response_data, status_code = Funcoes.make_api_request('post', API_ENDPOINT_FUNCIONARIO, data=data)
     # retorna o json da resposta da API externa
     return jsonify(response_data), status_code
+
+# Rota para Atualizar um Funcionário existente (PUT)
+@bp_funcionario.route('/', methods=['PUT'])
+def update_funcionario():
+    # verifica se o conteúdo da requisição é JSON
+    if not request.is_json:
+        return jsonify({"error": "Requisição deve ser JSON"}), 400
+    # obtém o corpo da requisição JSON
+    data = request.get_json()
+    # validação básica para ver se os campos foram informados no json
+    required_fields = ['id_funcionario', 'nome', 'matricula', 'cpf', 'senha', 'grupo', 'telefone']
+    if not all(field in data for field in required_fields):
+        return jsonify({"error": f"Campos obrigatórios faltando: {required_fields}"}), 400
+    # chama a função para fazer a requisição à API externa
+    response_data, status_code = Funcoes.make_api_request('put', f"{API_ENDPOINT_FUNCIONARIO}{data.get('id_funcionario')}", data=data)
+    # retorna o json da resposta da API externa
+    return jsonify(response_data), status_code
