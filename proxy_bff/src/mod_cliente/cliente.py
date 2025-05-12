@@ -36,7 +36,7 @@ def create_cliente():
     # obtém o corpo da requisição JSON
     data = request.get_json()
     # validação básica para ver se os campos foram informados no json
-    required_fields = ['nome', 'matricula', 'cpf', 'senha', 'grupo', 'telefone']
+    required_fields = ['nome', 'cpf', 'telefone']
     if not all(field in data for field in required_fields):
         return jsonify({"error": f"Campos obrigatórios faltando: {required_fields}"}), 400
     # chama a função para fazer a requisição à API externa
@@ -53,7 +53,7 @@ def update_cliente():
     # obtém o corpo da requisição JSON
     data = request.get_json()
     # validação básica para ver se os campos foram informados no json
-    required_fields = ['id_cliente', 'nome', 'matricula', 'cpf', 'senha', 'grupo', 'telefone']
+    required_fields = ['id_cliente', 'nome', 'cpf', 'telefone']
     if not all(field in data for field in required_fields):
         return jsonify({"error": f"Campos obrigatórios faltando: {required_fields}"}), 400
     # chama a função para fazer a requisição à API externa
