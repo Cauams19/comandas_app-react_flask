@@ -6,6 +6,9 @@ from settings import PROXY_PORT, PROXY_DEBUG, TEMPO_SESSION # carrega o arquivo 
 
 from funcoes import Funcoes
 
+# blueprints
+from mod_funcionario.funcionario import bp_funcionario
+
 # Configuração básica de logging
 logging.basicConfig(level=logging.INFO)
 
@@ -42,6 +45,9 @@ app.config['SESSION_COOKIE_SECURE'] = True
 def before_request():
     # renovar o tempo da sessão automaticamente conforme o usuário interage com a aplicação
     session.permanent = True
+
+# registra as rotas dos blueprints
+app.register_blueprint(bp_funcionario)
 
 # ponto de entrada para execução
 if __name__ == '__main__':
