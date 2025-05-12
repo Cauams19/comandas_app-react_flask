@@ -60,3 +60,16 @@ def update_funcionario():
     response_data, status_code = Funcoes.make_api_request('put', f"{API_ENDPOINT_FUNCIONARIO}{data.get('id_funcionario')}", data=data)
     # retorna o json da resposta da API externa
     return jsonify(response_data), status_code
+
+# Rota para Deletar um Funcionário (DELETE)
+@bp_funcionario.route('/', methods=['DELETE'])
+def delete_funcionario():
+    # obtém o ID do funcionário a partir dos parâmetros de consulta da URL
+    id_funcionario = request.args.get('id_funcionario')
+    # valida se o id_funcionario foi passado na URL
+    if not id_funcionario:
+        return jsonify({"error": "O parâmetro 'id_funcionario' é obrigatório"}), 400
+    # chama a função para fazer a requisição à API externa
+    response_data, status_code = Funcoes.make_api_request('delete', f"{API_ENDPOINT_FUNCIONARIO}{id_funcionario}")
+    # retorna o json da resposta da API externa
+    return jsonify(response_data), status_code
