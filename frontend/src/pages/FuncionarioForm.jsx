@@ -25,7 +25,7 @@ const FuncionarioForm = () => {
     // handleSubmit: função que lida com o envio do formulário e valida os dados.
     // reset: função que redefine os valores do formulário para os valores iniciais.
     // formState: objeto que contém o estado do formulário, como erros de validação e se o formulário está sendo enviado.
-    const { control, register, handleSubmit, reset, formState: { errors } } = useForm();
+    const { control, handleSubmit, reset, formState: { errors } } = useForm();
 
     // se opr for 'view', será utilizada para ajustar o formulário como somente leitura
     const isReadOnly = opr === 'view';
