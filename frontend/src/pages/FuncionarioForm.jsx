@@ -1,9 +1,13 @@
-import { useForm, Controller } from 'react-hook-form';  // incluído controller para as máscaras
-import React from "react";
-import { TextField, Button, Box, Typography, MenuItem, FormControl, InputLabel, Select, Toolbar } from '@mui/material';
-
-// import do IMaskInputWrapper, que é o wrapper do IMaskInput
+import React, { useEffect } from 'react';
+// Controller é usado para conectar os campos do formulário ao estado do formulário gerenciado pelo useForm.
+// O Controller é um componente que envolve o campo do formulário e fornece as propriedades e métodos necessários para gerenciar o estado do campo.
+import { useForm, Controller } from 'react-hook-form';
+import { TextField, Button, Box, Typography, MenuItem, FormControl, InputLabel, Select, Toolbar, } from '@mui/material';
 import IMaskInputWrapper from '../components/IMaskInputWrapper';
+// import dos services de funcionário, faz a comunicação com o backend
+import { createFuncionario, updateFuncionario, getFuncionarioById } from '../services/funcionarioService';
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const FuncionarioForm = () => {
     const { control, register, handleSubmit, reset, formState: { errors } } = useForm();
