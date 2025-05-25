@@ -44,6 +44,9 @@ const AppRoutes = () => {
 
                 {/* Rota para páginas não encontradas */}
                 <Route path="*" element={<NotFound />} />
+
+                {/* Rota para editar ou visualizar funcionário, com opr {view ou edit} e id dinâmico */}
+                <Route path="/funcionario/:opr/:id" element={<PrivateRoute> <FuncionarioForm /> </PrivateRoute>} />
             </Routes>
         </Suspense>
     );
