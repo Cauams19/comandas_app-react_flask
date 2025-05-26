@@ -30,3 +30,13 @@ export const deleteFuncionario = async (id) => {
     const response = await axios.delete(`${PROXY_URL}`, { params: { id_funcionario: id } });
     return response.data;
 };
+
+// Verifica se um CPF já existe no banco
+export const checkCpfExists = async (cpf) => {
+    const response = await axios.get(`${PROXY_URL}cpf`, {
+        params: { cpf }
+    });
+    return response.data.length > 0
+        ? { exists: true, funcionario: response.data[0] }
+        : { exists: false };
+};
