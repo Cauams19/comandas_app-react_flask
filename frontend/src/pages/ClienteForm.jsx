@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // Controller é usado para conectar os campos do formulário ao estado do formulário gerenciado pelo useForm.
 // O Controller é um componente que envolve o campo do formulário e fornece as propriedades e métodos necessários para gerenciar o estado do campo.
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button, Box, Typography, MenuItem, FormControl, InputLabel, Select, Toolbar, } from '@mui/material';
 import IMaskInputWrapper from '../components/IMaskInputWrapper';
 // import dos services de cliente, faz a comunicação com o backend
-import { createCliente, updateCliente, getClienteById } from '../services/clienteService';
+import { createCliente, updateCliente, getClienteById, checkCpfExists } from '../services/clienteService';
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
 
@@ -15,6 +15,9 @@ const ClienteForm = () => {
     // O id é o parâmetro da URL que representa o id do cliente a ser editado ou visualizado.
     // O opr é o parâmetro da URL que representa a operação a ser realizada (edit ou view).
     const { id, opr } = useParams();
+
+    const [showCpfModal, setShowCpfModal] = useState(false);
+    const [cpfDuplicado, setCpfDuplicado] = useState(null);
 
     // useNavigate é usado para navegar entre páginas.
     const navigate = useNavigate();
@@ -26,7 +29,7 @@ const ClienteForm = () => {
     // reset: função que redefine os valores do formulário para os valores iniciais.
     // formState: objeto que contém o estado do formulário, como erros de validação e se o formulário está sendo enviado.
 
-    const { control, handleSubmit, reset, formState: { errors } } = useForm();
+    const { control, handleSubmit, reset, watch, formState: { errors } } = useForm();
 
     // se opr for 'view', será utilizada para ajustar o formulário como somente leituraAdd commentMore actions
     const isReadOnly = opr === 'view';
@@ -60,6 +63,38 @@ const ClienteForm = () => {
             fetchCliente();
         }
     }, [id, reset]);
+
+    const handleCpfBlur = async () => {
+
+        const cpf = watch('cpf');
+
+        if (!cpf || cpf.length < 11) return;
+
+        try {
+            const { exists, cliente } = await checkCpfExists(cpf);
+            const isEditing = !!id;
+            const isSameCliente = isEditing && cliente?.id_cliente === parseInt(id);
+
+            if (exists && !isSameCliente) {
+                setCpfDuplicado(cliente);
+                setShowCpfModal(true);
+            }
+        } catch (error) {
+            console.error('Erro ao verificar CPF:', error);
+            toast.error('Erro ao verificar CPF');
+        }
+    };
+
+    const handleViewDuplicate = () => {
+        navigate(`/cliente/view/${cpfDuplicado.id_cliente}`);
+        setShowCpfModal(false);
+    };
+
+    const handleEditDuplicate = () => {
+        navigate(`/cliente/edit/${cpfDuplicado.id_cliente}`);
+        setShowCpfModal(false);
+    };
+
 
     // onSubmit: função chamada quando o formulário é enviado. Ela recebe os dados do formulário como argumento.
     // A função onSubmit verifica se o id está presente. Se estiver, chama a função updateCliente para atualizar os dados do cliente.
@@ -116,7 +151,7 @@ const ClienteForm = () => {
                 {/* CPF com máscara */}
                 <Controller name="cpf" control={control} defaultValue="" rules={{ required: "CPF é obrigatório" }}
                     render={({ field }) => (
-                        <TextField {...field} disabled={isReadOnly} label="CPF" fullWidth margin="normal" error={!!errors.cpf} helperText={errors.cpf?.message}
+                        <TextField {...field} disabled={isReadOnly} label="CPF" fullWidth margin="normal" error={!!errors.cpf} helperText={errors.cpf?.message} onBlur={handleCpfBlur}
                             InputProps={{
                                 // Define o IMaskInputWrapper como o componente de entrada
                                 inputComponent: IMaskInputWrapper,
@@ -164,6 +199,36 @@ const ClienteForm = () => {
                 </Box>
 
             </Box>
+
+            {/* //Modal CPF duplicado */}
+            {showCpfModal && (
+                <Box
+                    sx={{
+                        position: "fixed",
+                        inset: 0,
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        zIndex: 9999,
+                    }}
+                >
+                    <Box 
+                        sx={{ backgroundColor: "white",
+                        p: 4, 
+                        borderRadius: 2, 
+                        minWidth: 300 }}>
+
+                        <Typography variant="h6" gutterBottom>CPF já cadastrado</Typography>
+                        <Typography variant="body1" sx={{ mb: 2 }}>Este CPF já está vinculado a outro cliente.</Typography>
+                        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+                            <Button onClick={() => setShowCpfModal(false)}>Cancelar</Button>
+                            <Button color="info" variant="outlined" onClick={handleViewDuplicate}>Visualizar</Button>
+                            <Button color="primary" variant="contained" onClick={handleEditDuplicate}>Editar</Button>
+                        </Box>
+                    </Box>
+                </Box>
+            )}
 
         </Box>
     );
