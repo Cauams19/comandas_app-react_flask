@@ -1,9 +1,16 @@
 // useEffect executar efeitos colaterais, como buscar dados da API / Proxy/BFF ao carregar o componente.
 // useState gerenciar o estado local do componente, como a lista de clientes.
-import React, { useEffect, useState} from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Toolbar, Typography, IconButton, Button, useMediaQuery } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Toolbar, Typography, IconButton, Button, useMediaQuery, } from '@mui/material';
 import { Edit, Delete, Visibility, FiberNew } from '@mui/icons-material';
+// useNavigate navegar entre páginas.
 import { useNavigate } from 'react-router-dom';
+// serviços - funções para buscar e deletar clientes
+import { getClientes, deleteCliente } from '../services/clienteService';
+// mensagens de sucesso, erro e confirmação
+import { toast } from 'react-toastify';
+// useTheme para acessar o tema do Material-UI.
+import { useTheme } from '@mui/material/styles';
 
 function ClienteList() {
 
