@@ -31,7 +31,7 @@ const ClienteForm = () => {
 
     const { control, handleSubmit, reset, watch, formState: { errors } } = useForm();
 
-    // se opr for 'view', será utilizada para ajustar o formulário como somente leituraAdd commentMore actions
+    // se opr for 'view', será utilizada para ajustar o formulário como somente leitura
     const isReadOnly = opr === 'view';
 
     // title: variável que define o título do formulário com base na operação e no id
