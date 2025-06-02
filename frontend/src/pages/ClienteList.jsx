@@ -1,4 +1,4 @@
-// useEffect executar efeitos colaterais, como buscar dados da API / Proxy/BFF ao carregar o componente.Add commentMore actions
+// useEffect executar efeitos colaterais, como buscar dados da API / Proxy/BFF ao carregar o componente.
 // useState gerenciar o estado local do componente, como a lista de clientes.
 import React, { useEffect, useState} from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Typography, Button, Toolbar } from '@mui/material';
