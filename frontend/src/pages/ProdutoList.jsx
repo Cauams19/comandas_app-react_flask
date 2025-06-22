@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Toolbar, Typography, IconButton, Button, useMediaQuery, }
 from '@mui/material';
-import { Edit, Delete, Visibility, FiberNew } from '@mui/icons-material';
+import { Edit, Delete, Visibility, FiberNew, PictureAsPdf } from '@mui/icons-material';
 // useNavigate: usado para navegar entre páginas.
 import { useNavigate } from 'react-router-dom';
 // serviços - funções para buscar e deletar
@@ -12,6 +12,9 @@ import { getProdutos, deleteProduto } from '../services/produtoService';
 import { toast } from 'react-toastify';
 // useTheme: usado para acessar o tema do Material-UI.
 import { useTheme } from '@mui/material/styles';
+
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 function ProdutoList() {
 
@@ -78,12 +81,65 @@ function ProdutoList() {
         }
     };
 
+    const handleGeneratePdf = async () => {
+        const doc = new jsPDF();
+        doc.text('Relatório de Produtos', 14, 15);
+
+        const tableBody = await Promise.all(produtos.map(async (produto) => {
+            let imgData = '';
+            try {
+                const res = await fetch(produto.foto);
+                const blob = await res.blob();
+                const reader = new FileReader();
+
+                imgData = await new Promise(resolve => {
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.readAsDataURL(blob);
+                });
+            } catch (err) {
+                console.warn('Erro ao carregar imagem:', err);
+            }
+
+            return [
+                produto.id_produto,
+                produto.nome,
+                produto.valor_unitario,
+                produto.descricao,
+                { content: '', image: imgData, width: 15, height: 15 }
+            ];
+        }));
+
+        autoTable(doc, {
+            startY: 20,
+            head: [['ID', 'Nome', 'Valor', 'Descrição', 'Foto']],
+            body: tableBody,
+            didDrawCell: (data) => {
+                if (data.column.index === 4 && data.cell.raw?.image) {
+                    doc.addImage(
+                        data.cell.raw.image,
+                        'JPEG',
+                        data.cell.x + 1,
+                        data.cell.y + 1,
+                        data.cell.raw.width,
+                        data.cell.raw.height
+                    );
+                }
+            }
+        });
+
+        doc.save('relatorio_produtos.pdf');
+    };
+
+
     return (
         <TableContainer component={Paper}>
 
             <Toolbar sx={{ backgroundColor: '#ADD8E6', padding: 2, borderRadius: 1, mb: 2, display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="h6" color="primary">Produtos</Typography>
-                <Button color="primary" onClick={() => navigate('/produto')} startIcon={<FiberNew />}>Novo</Button>
+                <Typography variant="h6" color="success" sx={{fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1,}}>
+                    <PictureAsPdf fontSize="medium" /> Produtos
+                </Typography>
+                <Button variant="contained" color="success" onClick={() => navigate('/produto')} startIcon={<FiberNew />}>Novo</Button>
+                <Button variant="contained" color="success" startIcon={<PictureAsPdf />} onClick={handleGeneratePdf}>Gerar PDF</Button>
             </Toolbar>
             
             <Table>

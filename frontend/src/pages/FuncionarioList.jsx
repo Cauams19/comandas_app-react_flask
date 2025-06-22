@@ -2,7 +2,7 @@
 // useState gerenciar o estado local do componente, como a lista de funcionários.
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Toolbar, Typography, IconButton, Button, useMediaQuery, } from '@mui/material';
-import { Edit, Delete, Visibility, FiberNew } from '@mui/icons-material';
+import { Edit, Delete, Visibility, FiberNew, PictureAsPdf } from '@mui/icons-material';
 // useNavigate navegar entre páginas.
 import { useNavigate } from 'react-router-dom';
 // serviços - funções para buscar e deletar funcionários
@@ -11,6 +11,9 @@ import { getFuncionarios, deleteFuncionario } from '../services/funcionarioServi
 import { toast } from 'react-toastify';
 // useTheme para acessar o tema do Material-UI.
 import { useTheme } from '@mui/material/styles';
+
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 function FuncionarioList() {
 
@@ -78,12 +81,35 @@ function FuncionarioList() {
         }
     };
 
+    const handleGeneratePdf = () => {
+        const doc = new jsPDF();
+        doc.text('Relatório de Funcionários', 14, 15);
+
+        autoTable(doc, {
+            startY: 20,
+            head: [['ID', 'Nome', 'CPF', 'Matrícula', 'Telefone', 'Grupo']],
+            body: funcionarios.map(f => [
+                f.id_funcionario,
+                f.nome,
+                f.cpf,
+                f.matricula,
+                f.telefone,
+                f.grupo
+            ]),
+        });
+
+        doc.save('relatorio_funcionarios.pdf');
+    };
+
     return (
         <TableContainer component={Paper}>
 
             <Toolbar sx={{ backgroundColor: '#ADD8E6', padding: 2, borderRadius: 1, mb: 2, display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="h6" color="primary">Funcionários</Typography>
-                <Button color="primary" onClick={() => navigate('/funcionario')} startIcon={<FiberNew />}>Novo</Button>
+                <Typography variant="h6" color="success" sx={{fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1,}}>
+                    <PictureAsPdf fontSize="medium" /> Funcionários
+                </Typography>
+                <Button variant="contained" color="success" onClick={() => navigate('/funcionario')} startIcon={<FiberNew />}>Novo</Button>
+                <Button variant="contained" color="success" startIcon={<PictureAsPdf />} onClick={handleGeneratePdf}>Gerar PDF</Button>
             </Toolbar>
             
             <Table>

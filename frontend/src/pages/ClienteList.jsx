@@ -2,7 +2,7 @@
 // useState gerenciar o estado local do componente, como a lista de clientes.
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Toolbar, Typography, IconButton, Button, useMediaQuery, } from '@mui/material';
-import { Edit, Delete, Visibility, FiberNew } from '@mui/icons-material';
+import { Edit, Delete, Visibility, FiberNew, PictureAsPdf } from '@mui/icons-material';
 // useNavigate navegar entre páginas.
 import { useNavigate } from 'react-router-dom';
 // serviços - funções para buscar e deletar clientes
@@ -11,6 +11,9 @@ import { getClientes, deleteCliente } from '../services/clienteService';
 import { toast } from 'react-toastify';
 // useTheme para acessar o tema do Material-UI.
 import { useTheme } from '@mui/material/styles';
+
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 function ClienteList() {
 
@@ -78,12 +81,34 @@ function ClienteList() {
         }
     };
 
+    const handleGeneratePdf = () => {
+        const doc = new jsPDF();
+        doc.text('Relatório de Clientes', 14, 15);
+
+        autoTable(doc, {
+            startY: 20,
+            head: [['ID', 'Nome', 'CPF', 'Telefone']],
+            body: clientes.map(c => [
+                c.id_cliente,
+                c.nome,
+                c.cpf,
+                c.telefone
+            ]),
+        });
+
+        doc.save('relatorio_clientes.pdf');
+    };
+
+
     return (
         <TableContainer component={Paper}>
 
             <Toolbar sx={{ backgroundColor: '#ADD8E6', padding: 2, borderRadius: 1, mb: 2, display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="h6" color="primary">Clientes</Typography>
-                <Button color="primary" onClick={() => navigate('/cliente')} startIcon={<FiberNew />}>Novo</Button>
+                <Typography variant="h6" color="success" sx={{fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1,}}>
+                    <PictureAsPdf fontSize="medium" /> Clientes
+                </Typography>
+                <Button variant="contained" color="success" onClick={() => navigate('/cliente')} startIcon={<FiberNew />}>Novo</Button>
+                <Button variant="contained" color="success" startIcon={<PictureAsPdf />} onClick={handleGeneratePdf}>Gerar PDF</Button>
             </Toolbar>
             
             <Table>
