@@ -1,7 +1,9 @@
 import React from "react";
 import { Box, Typography, Toolbar } from "@mui/material";
+import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
+    const { usuarioInfo } = useAuth();
 
     return (
         <Box sx={{ backgroundColor: '#ADD8E6', padding: 1, borderRadius: 1, mt: 2 }}>
@@ -23,6 +25,18 @@ const Home = () => {
                 <Typography variant="body1" color="textDisabled">
                     {`Data atual: ${new Date().toLocaleDateString()}`}
                 </Typography>
+
+                {usuarioInfo && (
+                    <>
+                        <Typography variant="body1" color="textPrimary">
+                            Usuário: {usuarioInfo.usuario}
+                        </Typography>
+                        
+                        <Typography variant="body1" color="textPrimary">
+                            Grupo: {usuarioInfo.grupo}
+                        </Typography>
+                    </>
+                )}
 
             </Box>
             

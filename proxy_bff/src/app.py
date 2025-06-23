@@ -11,6 +11,7 @@ from funcoes import Funcoes
 from mod_funcionario.funcionario import bp_funcionario
 from mod_cliente.cliente import bp_cliente
 from mod_produto.produto import bp_produto
+from mod_auth.autenticacao import bp_auth
 
 # Configuração básica de logging
 logging.basicConfig(level=logging.INFO)
@@ -56,6 +57,7 @@ def before_request():
 app.register_blueprint(bp_funcionario)
 app.register_blueprint(bp_cliente)
 app.register_blueprint(bp_produto)
+app.register_blueprint(bp_auth)
 
 # ponto de entrada para execução
 if __name__ == '__main__':
@@ -63,3 +65,5 @@ if __name__ == '__main__':
     # Roda o servidor Flask em modo de debug (recarrega automaticamente e mostra mais erros)
     # Desative o debug em produção!
     app.run(host='0.0.0.0', port=PROXY_PORT, debug=PROXY_DEBUG, use_reloader=PROXY_DEBUG)
+
+

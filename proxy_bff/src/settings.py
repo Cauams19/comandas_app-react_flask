@@ -7,6 +7,10 @@ dotenv_file = find_dotenv()
 # Carrega o arquivo .env
 load_dotenv(dotenv_file)
 
+LOGIN_LOCAL_USERNAME = os.getenv("LOGIN_LOCAL_USERNAME")
+LOGIN_LOCAL_PASSWORD = os.getenv("LOGIN_LOCAL_PASSWORD")
+LOGIN_LOCAL_GRUPO = os.getenv("LOGIN_LOCAL_GRUPO", "Administrador")
+
 # Valores obtidos de variáveis de ambiente ou hardcoded como fallback
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
